@@ -33,7 +33,7 @@ export function ResetPassword() {
 
   // const URL = `http://localhost:8000`;
 
-    const URL = `https://testnode123432.herokuapp.com`;
+    const URL = `https://password-change-api.herokuapp.com`;
     const Changepassword= async(values)=>{
       fetch(`${URL}/resetpassword`,
      {
