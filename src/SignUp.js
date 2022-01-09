@@ -65,6 +65,7 @@ export function SignUp() {
   const Register = async (values) => {
     await fetch(`${URL}/signup`, {
       method: "POST",
+      mode:'no-cors',
       body: JSON.stringify(values),
       headers: {
         "Content-Type": "application/json",
