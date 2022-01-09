@@ -6,7 +6,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import resetpassword from "./img/resetpassword.svg";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useHistory } from "react-router-dom";
+import { useHistory,useParams } from "react-router-dom";
 
 const formValidationSchema = yup.object({
   password: yup
@@ -20,10 +20,11 @@ const formValidationSchema = yup.object({
 });
 
 export function ResetPassword() {
+  const {id}= useParams();
   const history = useHistory();
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
     useFormik({
-      initialValues: { password: "", passwordConfirmation: "" },
+      initialValues: { password: "", passwordConfirmation: "",token: id },
       validationSchema: formValidationSchema,
       onSubmit: (values) => {
         Changepassword(values)
