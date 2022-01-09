@@ -72,7 +72,7 @@ function Updatepassword({ id }) {
   // const { history } = useHistory();
   console.log(id);
   // const URL ="http://localhost:8000"
-  const URL = `https://password-change-api.herokuapp.com`;
+  const URL = `https://testnode123432.herokuapp.com`;
   const Result = (id) => {
     fetch(`${URL}/forgetpassword/verify`, {
       method: "GET",

@@ -29,9 +29,9 @@ export function ForgetPassword() {
       },
   })
   // const URL = `http://localhost:8000`;
-  const URL = `https://password-change-api.herokuapp.com`;
+  const URL = `https://testnode123432.herokuapp.com`;
   const forgot= (values)=>{
-    fetch(`${URL}/forgetpassword1`,
+    fetch(`${URL}/forgetpassword`,
     {
       mode:'no-cors',
       method:"POST",
