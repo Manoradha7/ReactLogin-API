@@ -96,7 +96,7 @@ export function SignUp() {
       } else {
         setMsg({ Message: "Credentials already exists", status: "error" });
       }
-      setOpen(true);
+      setOpen(true)
     });
     
   };
