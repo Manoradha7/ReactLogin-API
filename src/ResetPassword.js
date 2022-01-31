@@ -7,6 +7,8 @@ import resetpassword from "./img/resetpassword.svg";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useHistory,useParams } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const formValidationSchema = yup.object({
   password: yup
@@ -20,7 +22,23 @@ const formValidationSchema = yup.object({
 });
 
 export function ResetPassword() {
+
   const {id}= useParams();
+
+  //snack bar
+  const [open, setOpen] = React.useState(false);
+  const [Msg, setMsg] = React.useState("");
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
   const history = useHistory();
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
     useFormik({
@@ -39,7 +57,16 @@ export function ResetPassword() {
        method:"POST",
        body  :JSON.stringify(values),
        headers:{"Content-Type":"application/json"}
-     }).then((res)=>res.status).then((status)=>(status===200)?history.push('/Message'):null)
+     }).then((response) => {
+      if (response.status === 200) {
+        setMsg({
+          Message: "Password Changed Successfully",
+          status: "success",
+        });
+        setOpen(true);
+        setTimeout(() => history.push("/"), 3000);
+      }
+    });
      
    }
   return (
@@ -101,6 +128,20 @@ export function ResetPassword() {
           <img src={resetpassword} className="img" alt="img" />
         </div>
       </div>
+      <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={Msg.status}
+            sx={{ width: "100%" }}
+          >
+            {Msg.Message}
+          </Alert>
+        </Snackbar>
     </div>
   );
 }

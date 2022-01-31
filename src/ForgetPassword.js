@@ -8,6 +8,8 @@ import forgetpassword from "./img/forgetpassword.svg";
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import { useHistory } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 // validate form using yup
 const formValidationSchema = yup.object({
   email: yup
@@ -18,6 +20,22 @@ const formValidationSchema = yup.object({
 });
 // forgetpassword
 export function ForgetPassword() {
+
+   //snack bar
+   const [open, setOpen] = React.useState(false);
+   const [Msg, setMsg] = React.useState("");
+ 
+   const handleClose = (event, reason) => {
+     if (reason === "clickaway") {
+       return;
+     }
+     setOpen(false);
+   };
+ 
+   const Alert = React.forwardRef(function Alert(props, ref) {
+     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+   });
+
   const history = useHistory();
   // 
   const {handleSubmit,handleChange,handleBlur,values,errors,touched}=useFormik({
@@ -36,7 +54,17 @@ export function ForgetPassword() {
       method:"POST",
       body:JSON.stringify(values),
       headers:{'Content-Type':'application/json'}
-    }).then(()=>history.push('/reset-password'))
+    }).then((response) => {
+      if (response.status === 200) {
+        setMsg({
+          Message: "Verification link sent to the registered mail",
+          status: "success",
+        });
+      } else {
+        setMsg({ Message: "Mail is not registered", status: "error" });
+      }
+      setOpen(true);
+    });
   
   }
   return (
@@ -78,6 +106,20 @@ export function ForgetPassword() {
             alt="img" />
         </div>
       </div>
+      <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={Msg.status}
+            sx={{ width: "100%" }}
+          >
+            {Msg.Message}
+          </Alert>
+        </Snackbar>
     </div>
   );
 }
