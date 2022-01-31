@@ -8,7 +8,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import forgetpassword from "./img/forgetpassword.svg";
 import {useFormik} from 'formik';
 import * as yup from 'yup';
-import { useHistory } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 // validate form using yup
@@ -37,7 +36,6 @@ export function ForgetPassword() {
      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
    });
 
-  const history = useHistory();
   // 
   const {handleSubmit,handleChange,handleBlur,values,errors,touched}=useFormik({
     initialValues : {email:""},
