@@ -28,8 +28,8 @@ export function ForgetPassword() {
         console.log("onSubmit", values);
       },
   })
-  const URL = `http://localhost:8000`;
-  // const URL = `https://password-change-api.herokuapp.com`;
+  
+  const URL = `https://password-change-api.herokuapp.com`;
   const forgot= (values)=>{
     fetch(`${URL}/users/forgetpassword`,
     {

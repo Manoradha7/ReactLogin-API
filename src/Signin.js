@@ -50,9 +50,7 @@ export function Signin() {
       },
     });
 
-    const URL = `http://localhost:8000`;
-
-    // const URL = `https://password-change-api.herokuapp.com`;
+    const URL = `https://password-change-api.herokuapp.com`;
   const Login = async (values) => {
     await fetch(`${URL}/users/signin`, {
       method: "POST",
