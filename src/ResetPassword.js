@@ -32,16 +32,16 @@ export function ResetPassword() {
       },
     });
 
-  // const URL = `http://localhost:8000`;
+  const URL = `http://localhost:8000`;
 
-    const URL = `https://password-change-api.herokuapp.com`;
+    // const URL = `https://password-change-api.herokuapp.com`;
     const Changepassword= async(values)=>{
-      fetch(`${URL}/resetpassword`,
+     await fetch(`${URL}/users/resetpassword`,
      {
        method:"POST",
        body  :JSON.stringify(values),
        headers:{"Content-Type":"application/json"}
-     }).then((response)=>response.status).then((status)=>(status===200)?history.push('/Message'):null)
+     }).then((res)=>res.status).then((status)=>(status===200)?history.push('/Message'):null)
      
    }
   return (

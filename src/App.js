@@ -61,7 +61,7 @@ function Dashboard() {
 // changing url
 function ChangeUrl() {
   const { id } = useParams();
-  // console.log(id);
+  console.log(id);
   // By using useParams Hook, the token from the database is taken
 
   return id ? <Updatepassword id={id} /> : null;
@@ -70,11 +70,11 @@ function ChangeUrl() {
 // updatpassword
 function Updatepassword({ id }) {
   // const { history } = useHistory();
-  console.log(id);
-  // const URL ="http://localhost:8000"
-  const URL = `https://password-change-api.herokuapp.com`;
+  console.log(' up:',id);
+  const URL ="http://localhost:8000"
+  // const URL = `https://password-change-api.herokuapp.com`;
   const Result = (id) => {
-    fetch(`${URL}/forgetpassword/verify`, {
+    fetch(`${URL}/forgetpassword/verify/:id`, {
       method: "GET",
       headers: { "x-auth-token": id },
     })
