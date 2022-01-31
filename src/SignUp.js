@@ -70,7 +70,7 @@ export function SignUp() {
       },
       validationSchema: formValidationSchema,
       onSubmit: (values) => {
-        Register(values).then(() => history.push("/signin"));
+        Register(values)
         console.log("onSubmit", values);
       },
     });
