@@ -63,7 +63,7 @@ export function Signin() {
     //  validation
       validationSchema: formValidationSchema,
       onSubmit: (values) => {
-        Login(values).then(()=>history.push("/dashboard"))
+        Login(values)
         console.log("values", values);
       },
     });
