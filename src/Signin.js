@@ -14,6 +14,9 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Divider from "@mui/material/Divider";
+import Snackbar from "@mui/material/Snackbar";
+import * as React from "react";
+import MuiAlert from "@mui/material/Alert";
 
 // form validation using yup
 const formValidationSchema = yup.object({
@@ -36,6 +39,21 @@ const formValidationSchema = yup.object({
 
 // signin component
 export function Signin() {
+  //snack bar
+  const [open, setOpen] = React.useState(false);
+  const [Msg, setMsg] = React.useState("");
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   const history = useHistory();
 // use formik for the form process
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
@@ -58,6 +76,19 @@ export function Signin() {
       headers: {
         "Content-Type": "application/json",
       },
+    }).then((response) => {
+      if (response.status === 200) {
+        setMsg({ Message: "Signin Successfully", status: "success" });
+        setOpen(true);
+        setTimeout(() => history.push("/dashboard"), 3000);
+      } else {
+        setMsg({ Message: "Invalid Credentials", status: "error" });
+        setOpen(true);
+      }
+    })
+    .catch((err) => {
+      setMsg({ Message: "Error", status: "error" });
+      setOpen(true);
     });
   }
   return (
@@ -145,6 +176,20 @@ export function Signin() {
           <img src={signin} className="img" alt="img" />
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={Msg.status}
+          sx={{ width: "100%" }}
+        >
+          {Msg.Message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

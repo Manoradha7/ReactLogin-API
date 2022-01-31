@@ -1,3 +1,4 @@
+import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import PersonIcon from "@mui/icons-material/Person";
@@ -11,6 +12,8 @@ import signup from "./img/signup.svg";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Divider from "@mui/material/Divider";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 // validate form
 const formValidationSchema = yup.object({
@@ -41,6 +44,20 @@ const formValidationSchema = yup.object({
 
 // signup
 export function SignUp() {
+  //snack bar
+  const [open, setOpen] = React.useState(false);
+  const [Msg, setMsg] = React.useState("");
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
   const history = useHistory();
 // formik
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
@@ -69,6 +86,17 @@ export function SignUp() {
       headers: {
         "Content-Type": "application/json",
       },
+    }).then((response) => {
+      if (response.status === 200) {
+        setMsg({
+          Message: "Activation link sent to Your Mail",
+          status: "success",
+        });
+        setTimeout(() => history.push("/signin"), 5000);
+      } else {
+        setMsg({ Message: "Credentials already exists", status: "error" });
+      }
+      setOpen(true);
     });
     
   };
@@ -179,6 +207,20 @@ export function SignUp() {
           <img src={signup} className="img" alt="img" />
         </div>
       </div>
+      <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={Msg.status}
+            sx={{ width: "100%" }}
+          >
+            {Msg.Message}
+          </Alert>
+        </Snackbar>
     </div>
   );
 }
